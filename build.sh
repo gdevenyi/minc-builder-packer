@@ -28,11 +28,13 @@ gem install package_cloud
 
 service docker start
 
-git clone --recursive --branch auto-build https://github.com/gdevenyi/minc-toolkit-v2.git minc-toolkit-v2 || true
+git clone --depth 1 --recursive --branch auto-build https://github.com/gdevenyi/minc-toolkit-v2.git minc-toolkit-v2 || true
 cd minc-toolkit-v2
-git clone https://github.com/packpack/packpack.git packpack
-OS=ubuntu DIST=xenial ./packpack/packpack
+git clone --branch ccache-optional https://github.com/gdevenyi/build.git packpack
 
+export CCACHE_DISABLE=1
+
+OS=ubuntu DIST=xenial ./packpack/packpack
 for file in build/*.deb
 do
     package_cloud push gdevenyi/minc-toolkit-v2/ubuntu/xenial $file
