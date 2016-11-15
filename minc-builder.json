@@ -1,6 +1,7 @@
 {
   "variables": {
-    "disk_size": "20000"
+    "disk_size": "20000",
+    "PACKAGECLOUD_TOKEN": "{{env `PACKAGECLOUD_TOKEN`}}"
   },
   "push": {
     "name": "CoBrALab/minc-builder-vm",
@@ -55,7 +56,8 @@
     {
       "type": "shell",
       "execute_command": "echo 'minc' | {{ .Vars }} sudo -E -S bash '{{ .Path }}'",
-      "scripts": "build.sh"
+      "scripts": "build.sh",
+      "environment_vars": ["PACKAGECLOUD_TOKEN={{user `PACKAGECLOUD_TOKEN`}}"]
     }
   ]
 
