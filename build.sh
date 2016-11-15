@@ -34,8 +34,18 @@ git clone --branch ccache-optional https://github.com/gdevenyi/build.git packpac
 
 export CCACHE_DISABLE=1
 
-OS=ubuntu DIST=xenial ./packpack/packpack
+echo $BUILD_NAME
+OS=$(echo $BUILD_NAME | grep -o -E '^.*\-' | tr -d '-' || true)
+DIST=$(echo $BUILD_NAME | grep -o -E '\-.*$' | tr -d '-' || true)
+export OS
+export DIST
+
+echo "Building OS=${OS}, DIST=${DIST}"
+
+
+./packpack/packpack
+
 for file in build/*.deb
 do
-    package_cloud push gdevenyi/minc-toolkit-v2/ubuntu/xenial $file
+    package_cloud push gdevenyi/minc-toolkit-v2/${OS}/${DIST} $file
 done
