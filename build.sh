@@ -30,7 +30,7 @@ service docker start
 
 git clone --depth 1 --recursive --branch auto-build https://github.com/gdevenyi/minc-toolkit-v2.git minc-toolkit-v2 || true
 cd minc-toolkit-v2
-git clone --branch ccache-optional https://github.com/gdevenyi/build.git packpack
+git clone --branch develop https://github.com/gdevenyi/build.git packpack
 
 export CCACHE_DISABLE=1
 
@@ -42,10 +42,10 @@ export DIST
 
 echo "Building OS=${OS}, DIST=${DIST}"
 
-
 ./packpack/packpack
+shopt -s nullglob
 
-for file in build/*.deb
+for file in build/*.deb build/*.rpm
 do
     package_cloud push gdevenyi/minc-toolkit-v2/${OS}/${DIST} $file
 done
